@@ -843,10 +843,12 @@
         }
       ];
 
-      const takenGifts = new Set(JSON.parse(localStorage.getItem("cremaillereTakenGifts") || "[]"));
+      const wishlistStorageKey = "cremaillereWishlistReservationsV2";
+      localStorage.removeItem("cremaillereTakenGifts");
+      const takenGifts = new Set(JSON.parse(localStorage.getItem(wishlistStorageKey) || "[]"));
 
       function saveTakenGifts() {
-        localStorage.setItem("cremaillereTakenGifts", JSON.stringify([...takenGifts]));
+        localStorage.setItem(wishlistStorageKey, JSON.stringify([...takenGifts]));
       }
 
       function reservationMail(gift) {
