@@ -13,7 +13,5 @@ gh api repos/:owner/cremaillere/pages -f source.branch=main -f source.path=/
 The public site will be available at:
 
 ```text
-https://<your-github-username>.github.io/cremaillere/
+https://yavlenieraket.github.io/cremaillere/
 ```
-
-Before sharing, replace `votre-email@example.com` in `index.html` with the real RSVP email address.
