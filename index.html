@@ -1,0 +1,932 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Crémaillère de Katia & Arthur</title>
+    <style>
+      :root {
+        color-scheme: light;
+        --ink: #17202a;
+        --paper: #fff8e8;
+        --red: #ff4057;
+        --blue: #1769ff;
+        --yellow: #ffd338;
+        --green: #20bf6b;
+        --cream: #fffdf6;
+        --shadow: 0 18px 40px rgba(23, 32, 42, 0.16);
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      html {
+        scroll-behavior: smooth;
+      }
+
+      body {
+        margin: 0;
+        min-height: 100vh;
+        background:
+          radial-gradient(circle at 15% 12%, rgba(255, 211, 56, 0.42) 0 7rem, transparent 7.1rem),
+          radial-gradient(circle at 90% 8%, rgba(32, 191, 107, 0.35) 0 8rem, transparent 8.1rem),
+          linear-gradient(135deg, #fff8e8 0%, #fffdf6 42%, #eaf1ff 100%);
+        color: var(--ink);
+        font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+        line-height: 1.5;
+      }
+
+      a {
+        color: inherit;
+      }
+
+      .page {
+        position: relative;
+        overflow: hidden;
+      }
+
+      .confetti {
+        position: absolute;
+        inset: 0;
+        pointer-events: none;
+        overflow: hidden;
+      }
+
+      .confetti span {
+        position: absolute;
+        display: block;
+        width: 1.2rem;
+        height: 1.2rem;
+        border-radius: 0.2rem;
+        transform: rotate(var(--turn));
+        background: var(--color);
+        opacity: 0.92;
+      }
+
+      .confetti span:nth-child(1) { left: 8%; top: 7%; --turn: 12deg; --color: var(--red); }
+      .confetti span:nth-child(2) { left: 82%; top: 17%; --turn: -18deg; --color: var(--blue); }
+      .confetti span:nth-child(3) { left: 72%; top: 58%; --turn: 22deg; --color: var(--yellow); }
+      .confetti span:nth-child(4) { left: 16%; top: 62%; --turn: -30deg; --color: var(--green); }
+      .confetti span:nth-child(5) { left: 92%; top: 78%; --turn: 8deg; --color: var(--red); }
+      .confetti span:nth-child(6) { left: 38%; top: 86%; --turn: 40deg; --color: var(--blue); }
+
+      .wrap {
+        position: relative;
+        z-index: 1;
+        width: min(1120px, calc(100% - 32px));
+        margin: 0 auto;
+        padding: 32px 0 56px;
+      }
+
+      .hero {
+        display: grid;
+        grid-template-columns: minmax(0, 1.08fr) minmax(320px, 0.92fr);
+        gap: 24px;
+        align-items: stretch;
+        min-height: 92vh;
+      }
+
+      .poster,
+      .panel,
+      .form-card {
+        border: 3px solid var(--ink);
+        box-shadow: var(--shadow);
+      }
+
+      .poster {
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        min-height: 620px;
+        padding: clamp(28px, 5vw, 64px);
+        background: var(--cream);
+        overflow: hidden;
+      }
+
+      .poster::before {
+        content: "";
+        position: absolute;
+        right: -8%;
+        bottom: -12%;
+        width: 42%;
+        aspect-ratio: 1;
+        border: 3px solid var(--ink);
+        border-radius: 50%;
+        background: var(--yellow);
+      }
+
+      .poster::after {
+        content: "";
+        position: absolute;
+        right: 12%;
+        top: 10%;
+        width: 19%;
+        aspect-ratio: 1;
+        border: 3px solid var(--ink);
+        background: var(--green);
+        transform: rotate(14deg);
+      }
+
+      .eyebrow {
+        position: relative;
+        z-index: 1;
+        width: fit-content;
+        margin: 0 0 24px;
+        padding: 8px 14px;
+        border: 3px solid var(--ink);
+        background: var(--yellow);
+        font-size: 0.9rem;
+        font-weight: 900;
+        letter-spacing: 0;
+        text-transform: uppercase;
+      }
+
+      h1 {
+        position: relative;
+        z-index: 1;
+        max-width: 820px;
+        margin: 0;
+        font-family: Georgia, "Times New Roman", serif;
+        font-size: clamp(4.2rem, 12vw, 9.8rem);
+        line-height: 0.82;
+        letter-spacing: 0;
+      }
+
+      .title-line {
+        display: block;
+      }
+
+      .title-line:nth-child(1) {
+        color: var(--red);
+      }
+
+      .title-line:nth-child(2) {
+        color: var(--blue);
+      }
+
+      .title-line:nth-child(3) {
+        color: var(--green);
+      }
+
+      .intro {
+        position: relative;
+        z-index: 1;
+        max-width: 690px;
+        margin: 30px 0 0;
+        font-size: clamp(1.25rem, 2.4vw, 2rem);
+        font-weight: 850;
+      }
+
+      .details {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 12px;
+        margin-top: 42px;
+      }
+
+      .detail {
+        position: relative;
+        z-index: 1;
+        min-height: 112px;
+        padding: 16px;
+        border: 3px solid var(--ink);
+        background: var(--paper);
+      }
+
+      .detail strong {
+        display: block;
+        margin-bottom: 6px;
+        font-size: 0.82rem;
+        font-weight: 950;
+        text-transform: uppercase;
+      }
+
+      .detail span {
+        display: block;
+        font-size: 1.22rem;
+        font-weight: 900;
+      }
+
+      .side {
+        display: grid;
+        gap: 24px;
+      }
+
+      .panel {
+        padding: 28px;
+        background: var(--blue);
+        color: white;
+      }
+
+      .panel.yellow {
+        background: var(--yellow);
+        color: var(--ink);
+      }
+
+      .panel.green {
+        background: var(--green);
+        color: var(--ink);
+      }
+
+      .panel h2,
+      .form-card h2 {
+        margin: 0 0 12px;
+        font-size: clamp(1.8rem, 4vw, 3.1rem);
+        line-height: 0.95;
+        font-weight: 950;
+        letter-spacing: 0;
+      }
+
+      .panel p {
+        margin: 0;
+        font-size: 1.1rem;
+        font-weight: 760;
+      }
+
+      .mini-list {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 10px;
+        margin: 18px 0 0;
+        padding: 0;
+        list-style: none;
+      }
+
+      .mini-list li {
+        min-height: 42px;
+        display: flex;
+        align-items: center;
+        padding: 9px 11px;
+        border: 3px solid var(--ink);
+        background: white;
+        color: var(--ink);
+        font-weight: 950;
+      }
+
+      .gift-link {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 48px;
+        margin-top: 18px;
+        padding: 12px 16px;
+        border: 3px solid var(--ink);
+        background: var(--red);
+        color: white;
+        font-weight: 950;
+        text-decoration: none;
+        box-shadow: 6px 6px 0 var(--ink);
+        transition: transform 160ms ease, box-shadow 160ms ease;
+      }
+
+      .gift-link:hover,
+      .gift-link:focus-visible {
+        transform: translate(3px, 3px);
+        box-shadow: 3px 3px 0 var(--ink);
+      }
+
+      .info-band {
+        display: grid;
+        grid-template-columns: 0.85fr 1.15fr;
+        gap: 24px;
+        margin-top: 24px;
+      }
+
+      .playlist {
+        min-height: 100%;
+        padding: clamp(24px, 4vw, 42px);
+        border: 3px solid var(--ink);
+        background: var(--red);
+        color: white;
+        box-shadow: var(--shadow);
+      }
+
+      .playlist h2,
+      .wishlist h2 {
+        margin: 0 0 14px;
+        font-size: clamp(2rem, 5vw, 4.1rem);
+        line-height: 0.9;
+        letter-spacing: 0;
+      }
+
+      .playlist p,
+      .wishlist-intro {
+        margin: 0;
+        font-size: 1.08rem;
+        font-weight: 760;
+      }
+
+      .menu-grid {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 14px;
+        margin: 20px 0 0;
+      }
+
+      .menu-tile {
+        min-height: 112px;
+        padding: 16px;
+        border: 3px solid var(--ink);
+        background: white;
+        color: var(--ink);
+      }
+
+      .menu-tile strong {
+        display: block;
+        margin-bottom: 7px;
+        font-size: 1.05rem;
+        font-weight: 950;
+      }
+
+      .menu-tile span {
+        font-weight: 760;
+      }
+
+      .wishlist {
+        margin-top: 24px;
+        padding: clamp(24px, 4vw, 42px);
+        border: 3px solid var(--ink);
+        background: var(--yellow);
+        box-shadow: var(--shadow);
+      }
+
+      .wishlist-grid {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 14px;
+        margin-top: 22px;
+      }
+
+      .gift-card {
+        display: flex;
+        min-height: 230px;
+        flex-direction: column;
+        justify-content: space-between;
+        gap: 16px;
+        padding: 16px;
+        border: 3px solid var(--ink);
+        background: var(--cream);
+      }
+
+      .gift-card.is-taken {
+        background: #e7e7e7;
+        color: #59606a;
+      }
+
+      .gift-card h3 {
+        margin: 0 0 6px;
+        font-size: 1.18rem;
+        line-height: 1.1;
+      }
+
+      .gift-card p {
+        margin: 0;
+        font-weight: 730;
+      }
+
+      .gift-actions {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 10px;
+      }
+
+      .gift-actions a,
+      .reserve-button {
+        min-height: 46px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        border: 3px solid var(--ink);
+        background: white;
+        color: var(--ink);
+        font: inherit;
+        font-weight: 950;
+        text-align: center;
+        text-decoration: none;
+        box-shadow: 4px 4px 0 var(--ink);
+      }
+
+      .reserve-button {
+        width: 100%;
+        background: var(--green);
+      }
+
+      .gift-card.is-taken .reserve-button {
+        background: #c2c7cf;
+        cursor: not-allowed;
+      }
+
+      .gift-status {
+        min-height: 24px;
+        display: block;
+        font-size: 0.88rem;
+        font-weight: 950;
+        text-transform: uppercase;
+      }
+
+      .form-card {
+        margin-top: 24px;
+        padding: clamp(24px, 4vw, 42px);
+        background: var(--cream);
+      }
+
+      form {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 18px;
+        margin-top: 22px;
+      }
+
+      label,
+      fieldset {
+        margin: 0;
+        min-width: 0;
+      }
+
+      label span,
+      legend {
+        display: block;
+        margin-bottom: 7px;
+        font-size: 0.86rem;
+        font-weight: 950;
+        text-transform: uppercase;
+      }
+
+      input,
+      select,
+      textarea {
+        width: 100%;
+        min-height: 50px;
+        border: 3px solid var(--ink);
+        border-radius: 0;
+        background: white;
+        color: var(--ink);
+        font: inherit;
+        font-weight: 750;
+        padding: 10px 12px;
+      }
+
+      textarea {
+        min-height: 118px;
+        resize: vertical;
+      }
+
+      fieldset {
+        border: 0;
+        padding: 0;
+      }
+
+      .radio-row {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 10px;
+      }
+
+      .radio-row input {
+        position: absolute;
+        opacity: 0;
+        pointer-events: none;
+      }
+
+      .radio-row span {
+        display: flex;
+        min-height: 50px;
+        align-items: center;
+        justify-content: center;
+        border: 3px solid var(--ink);
+        background: white;
+        font-size: 0.96rem;
+        font-weight: 950;
+        text-align: center;
+        cursor: pointer;
+      }
+
+      .radio-row input:checked + span {
+        background: var(--green);
+      }
+
+      .full {
+        grid-column: 1 / -1;
+      }
+
+      .actions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 14px;
+        align-items: center;
+      }
+
+      button {
+        min-height: 54px;
+        border: 3px solid var(--ink);
+        border-radius: 0;
+        background: var(--blue);
+        color: white;
+        font: inherit;
+        font-weight: 950;
+        padding: 12px 18px;
+        cursor: pointer;
+        box-shadow: 6px 6px 0 var(--ink);
+        transition: transform 160ms ease, box-shadow 160ms ease;
+      }
+
+      button:hover,
+      button:focus-visible {
+        transform: translate(3px, 3px);
+        box-shadow: 3px 3px 0 var(--ink);
+      }
+
+      .note {
+        margin: 0;
+        max-width: 520px;
+        font-size: 0.94rem;
+        font-weight: 720;
+      }
+
+      .status {
+        display: none;
+        margin-top: 18px;
+        padding: 14px;
+        border: 3px solid var(--ink);
+        background: var(--yellow);
+        font-weight: 850;
+      }
+
+      .status.is-visible {
+        display: block;
+      }
+
+      @media (max-width: 900px) {
+        .hero {
+          grid-template-columns: 1fr;
+          min-height: auto;
+        }
+
+        .info-band,
+        .wishlist-grid {
+          grid-template-columns: 1fr;
+        }
+
+        .poster {
+          min-height: 0;
+        }
+      }
+
+      @media (max-width: 680px) {
+        .wrap {
+          width: min(100% - 20px, 1120px);
+          padding-top: 10px;
+        }
+
+        .details,
+        form,
+        .radio-row,
+        .mini-list,
+        .menu-grid {
+          grid-template-columns: 1fr;
+        }
+
+        .poster,
+        .panel,
+        .form-card {
+          border-width: 2px;
+        }
+
+        .poster {
+          padding: 24px;
+        }
+
+        h1 {
+          font-size: clamp(3.5rem, 20vw, 5.4rem);
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <main class="page">
+      <div class="confetti" aria-hidden="true">
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
+
+      <div class="wrap">
+        <section class="hero" aria-label="Invitation à la crémaillère">
+          <div class="poster">
+            <div>
+              <p class="eyebrow">Invitation très officielle et très joyeuse</p>
+              <h1>
+                <span class="title-line">Cre-</span>
+                <span class="title-line">mail-</span>
+                <span class="title-line">lère</span>
+              </h1>
+              <p class="intro">
+                Salut, nous sommes Katia et Arthur, et nous vous invitons à notre
+                crémaillère, même si cela fait déjà un an que nous avons emménagé.
+              </p>
+            </div>
+
+            <div class="details" aria-label="Details pratiques">
+              <div class="detail">
+                <strong>Date</strong>
+                <span>13 juin 2026</span>
+              </div>
+              <div class="detail">
+                <strong>Ambiance</strong>
+                <span>Banquet maison</span>
+              </div>
+              <div class="detail">
+                <strong>Au menu</strong>
+                <span>Bouchées & boissons</span>
+              </div>
+            </div>
+          </div>
+
+          <aside class="side">
+            <div class="panel">
+              <h2>On fête enfin la maison.</h2>
+              <p>
+                Il y aura plein de petites choses à grignoter, du cidre, du vin,
+                des jus, des conversations dans tous les coins et beaucoup de musique.
+              </p>
+              <ul class="mini-list" aria-label="Aperçu du menu">
+                <li>Cidre</li>
+                <li>Vin</li>
+                <li>Jus</li>
+                <li>Bagels</li>
+              </ul>
+            </div>
+
+            <div class="panel yellow">
+              <h2>Wishlist</h2>
+              <p>
+                Si vous avez envie d'apporter un cadeau de crémaillère, nous avons
+                préparé une petite liste d'idées. Vous pouvez réserver une idée pour
+                éviter les doublons.
+              </p>
+              <a class="gift-link" href="#wishlist">
+                Voir la wishlist
+              </a>
+            </div>
+
+            <div class="panel green">
+              <h2>Venez comme vous êtes.</h2>
+              <p>
+                Dites-nous juste si vous venez, vers quelle heure, et si vous serez
+                accompagnée ou accompagné.
+              </p>
+            </div>
+          </aside>
+        </section>
+
+        <section class="info-band" aria-label="Menu et ambiance">
+          <div class="playlist">
+            <h2>Musique, verres, bouchées.</h2>
+            <p>
+              On prépare une soirée joyeuse, simple et bien remplie : un banquet
+              de petites choses à partager, des boissons pour tous les goûts et une
+              playlist qui restera allumée longtemps.
+            </p>
+          </div>
+
+          <div class="playlist">
+            <h2>Ce qu'il y aura</h2>
+            <div class="menu-grid">
+              <div class="menu-tile">
+                <strong>À boire</strong>
+                <span>Cidre, vin, jus et quelques bulles sans prétention.</span>
+              </div>
+              <div class="menu-tile">
+                <strong>À manger</strong>
+                <span>Bagels, baguettes variées, tartinades, snacks et surprises.</span>
+              </div>
+              <div class="menu-tile">
+                <strong>À écouter</strong>
+                <span>Beaucoup de musique, probablement trop de chansons qu'on aime.</span>
+              </div>
+              <div class="menu-tile">
+                <strong>À faire</strong>
+                <span>Parler, rire, visiter l'appartement et lever un verre.</span>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="wishlist" id="wishlist" aria-labelledby="wishlist-title">
+          <h2 id="wishlist-title">Wishlist</h2>
+          <p class="wishlist-intro">
+            Choisissez une idée, ouvrez le lien, puis réservez-la. La réservation
+            reste marquée sur cet appareil et prépare aussi un email pour nous prévenir.
+          </p>
+
+          <div class="wishlist-grid" id="wishlist-grid"></div>
+        </section>
+
+        <section class="form-card" aria-labelledby="rsvp-title">
+          <h2 id="rsvp-title">RSVP</h2>
+          <p class="note">
+            Un petit oui, un petit non, ou un peut-être : tout nous aide à préparer
+            les bouchées, les verres et la bonne quantité de chaises.
+          </p>
+
+          <form id="rsvp-form">
+            <label>
+              <span>Votre nom</span>
+              <input name="name" autocomplete="name" required />
+            </label>
+
+            <label>
+              <span>Votre email</span>
+              <input type="email" name="email" autocomplete="email" />
+            </label>
+
+            <fieldset class="full">
+              <legend>Est-ce que vous venez ?</legend>
+              <div class="radio-row">
+                <label>
+                  <input type="radio" name="attendance" value="Oui, avec joie" required />
+                  <span>Oui</span>
+                </label>
+                <label>
+                  <input type="radio" name="attendance" value="Pas cette fois" />
+                  <span>Non</span>
+                </label>
+                <label>
+                  <input type="radio" name="attendance" value="Je ne sais pas encore" />
+                  <span>Peut-etre</span>
+                </label>
+              </div>
+            </fieldset>
+
+            <label>
+              <span>Vers quelle heure ?</span>
+              <input type="time" name="arrival" />
+            </label>
+
+            <label>
+              <span>Plus un ?</span>
+              <select name="plusOne">
+                <option value="Non">Non</option>
+                <option value="Oui">Oui</option>
+                <option value="Je confirme plus tard">Je confirme plus tard</option>
+              </select>
+            </label>
+
+            <label class="full">
+              <span>Message, allergies, préférences</span>
+              <textarea name="message" placeholder="Un petit mot, une allergie, une préférence de boisson..."></textarea>
+            </label>
+
+            <div class="actions full">
+              <button type="submit">Envoyer ma réponse</button>
+              <p class="note">Votre réponse sera préparée dans un email, prête à partir.</p>
+            </div>
+          </form>
+
+          <div class="status" id="status" role="status"></div>
+        </section>
+      </div>
+    </main>
+
+    <script>
+      const form = document.querySelector("#rsvp-form");
+      const statusBox = document.querySelector("#status");
+      const wishlistGrid = document.querySelector("#wishlist-grid");
+      const hostEmail = "votre-email@example.com";
+      const gifts = [
+        {
+          id: "swans-book",
+          title: "Livre très sérieux sur les cygnes",
+          description: "Un objet parfait pour une bibliothèque de maison avec conversation intégrée.",
+          url: "https://cthulhubooks.com/products/list-of-animal-displaying-homosexual-behaviours-swans?variant=53615985099078"
+        },
+        {
+          id: "bialetti-moka",
+          title: "Cafetière moka Bialetti",
+          description: "Pour faire du café qui sent le matin italien dans la cuisine.",
+          url: "https://www.amazon.fr/Bialetti-Stovetop-Espresso-Machine-Aluminium/dp/B071D9W2LF/ref=sxbs_pa_sp_search_thematic_btf_sspa?content-id=amzn1.sym.e09534e8-f928-44bc-baf4-4e230d583a53%3Aamzn1.sym.e09534e8-f928-44bc-baf4-4e230d583a53&crid=84EX77BODVJ2&cv_ct_cx=mocca&keywords=mocca&pd_rd_i=B071D9W2LF&pd_rd_r=38ebd696-8cf9-4b9b-84a3-1b0b07f40355&pd_rd_w=zUY8H&pd_rd_wg=dsnIT&pf_rd_p=e09534e8-f928-44bc-baf4-4e230d583a53&pf_rd_r=S5V49CX3YFPQVVC7CC9G&qid=1779722320&sbo=RZvfv%2F%2FHxDF%2BO5021pAnSA%3D%3D&sprefix=mocca%2Caps%2C165&sr=1-4-3df7841b-ccad-4e46-87fc-93addca52d4e-spons&aref=i3HlOO7KO2&sp_csd=d2lkZ2V0TmFtZT1zcF9zZWFyY2hfdGhlbWF0aWNfYnRm&th=1"
+        },
+        {
+          id: "margosatraed-plaid",
+          title: "Plaid multicolore",
+          description: "Pour le canapé, les invités frileux et les dimanches lents.",
+          url: "https://www.ikea.com/fr/fr/p/margosatraed-plaid-multicolore-20626572/"
+        },
+        {
+          id: "tofsand-panier",
+          title: "Panier à pique-nique",
+          description: "Pour transporter des choses délicieuses quelque part dehors.",
+          url: "https://www.ikea.com/fr/fr/p/tofsand-panier-a-pique-nique-multicolore-50619674/"
+        },
+        {
+          id: "lush-candle",
+          title: "Bougie Honey I Washed The Kids",
+          description: "Une odeur douce, dorée et très cosy.",
+          url: "https://www.lush.com/fr/fr/p/honey-i-washed-the-kids-one-wick-candle"
+        },
+        {
+          id: "muji-log-fire",
+          title: "Bougie MUJI Log Fire",
+          description: "Ambiance feu de cheminée, même sans cheminée.",
+          url: "https://www.muji.eu/products/log-fire-tin-candle-19287"
+        },
+        {
+          id: "muji-peppercorn",
+          title: "Bougie MUJI Peppercorn & Sandalwood",
+          description: "Un parfum boisé et poivré pour rendre la maison plus maison.",
+          url: "https://www.muji.eu/products/Peppercorn-and-Sandalwood-Tin-Candle-P-21753-H-000000"
+        }
+      ];
+
+      const takenGifts = new Set(JSON.parse(localStorage.getItem("cremaillereTakenGifts") || "[]"));
+
+      function saveTakenGifts() {
+        localStorage.setItem("cremaillereTakenGifts", JSON.stringify([...takenGifts]));
+      }
+
+      function reservationMail(gift) {
+        const subject = encodeURIComponent(`Wishlist crémaillère - ${gift.title}`);
+        const body = encodeURIComponent([
+          "Bonjour Katia et Arthur,",
+          "",
+          `Je réserve cette idée cadeau : ${gift.title}`,
+          gift.url,
+          "",
+          "À très vite !"
+        ].join("\n"));
+
+        return `mailto:${hostEmail}?subject=${subject}&body=${body}`;
+      }
+
+      function renderWishlist() {
+        wishlistGrid.innerHTML = "";
+
+        gifts.forEach((gift) => {
+          const isTaken = takenGifts.has(gift.id);
+          const card = document.createElement("article");
+          card.className = `gift-card${isTaken ? " is-taken" : ""}`;
+          card.innerHTML = `
+            <div>
+              <span class="gift-status">${isTaken ? "Réservé" : "Disponible"}</span>
+              <h3>${gift.title}</h3>
+              <p>${gift.description}</p>
+            </div>
+            <div class="gift-actions">
+              <a href="${gift.url}" target="_blank" rel="noreferrer">Ouvrir le lien</a>
+              <button class="reserve-button" type="button" data-gift="${gift.id}" ${isTaken ? "disabled" : ""}>
+                ${isTaken ? "Déjà réservé" : "Je le prends"}
+              </button>
+            </div>
+          `;
+          wishlistGrid.appendChild(card);
+        });
+      }
+
+      wishlistGrid.addEventListener("click", (event) => {
+        const button = event.target.closest("[data-gift]");
+        if (!button) return;
+
+        const gift = gifts.find((item) => item.id === button.dataset.gift);
+        if (!gift || takenGifts.has(gift.id)) return;
+
+        takenGifts.add(gift.id);
+        saveTakenGifts();
+        renderWishlist();
+        window.location.href = reservationMail(gift);
+      });
+
+      renderWishlist();
+
+      form.addEventListener("submit", (event) => {
+        event.preventDefault();
+        const data = new FormData(form);
+        const lines = [
+          "Bonjour Katia et Arthur,",
+          "",
+          "Voici ma réponse pour la crémaillère du 13 juin 2026 :",
+          "",
+          `Nom : ${data.get("name") || ""}`,
+          `Email : ${data.get("email") || ""}`,
+          `Présence : ${data.get("attendance") || ""}`,
+          `Heure d'arrivée : ${data.get("arrival") || "À confirmer"}`,
+          `Plus un : ${data.get("plusOne") || "Non"}`,
+          `Message : ${data.get("message") || ""}`,
+          "",
+          "À très vite !"
+        ];
+
+        const subject = encodeURIComponent("RSVP crémaillère - 13 juin 2026");
+        const body = encodeURIComponent(lines.join("\n"));
+        window.location.href = `mailto:${hostEmail}?subject=${subject}&body=${body}`;
+
+        statusBox.textContent = "Votre email est prêt. Si rien ne s'ouvre, envoyez-nous simplement les mêmes informations par message.";
+        statusBox.classList.add("is-visible");
+      });
+    </script>
+  </body>
+</html>
